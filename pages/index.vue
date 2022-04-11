@@ -57,7 +57,7 @@ export default {
 
   async mounted() {
     const endpoint =
-      'https://dydra.com/junjun7613/roman-factoid/sparql'
+      'https://dydra.com/i2k/historical/sparql'
 
     const query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -75,6 +75,7 @@ select * where {
 	?s a crm:E5_Event .
     ?s ex:eventType ?type.
     ?s ex:eventCategory ?category.
+    ?s ex:region ?region.
     ?s rdfs:label ?eventLabel.
     optional{?s crm:P7_took_place_at ?place.}
     optional{?place rdfs:label ?placeLavel; schema:latitude ?lat; schema:longitude ?lon.}
@@ -117,7 +118,7 @@ select * where {
       if(ids.includes(item.s)==false && item.beginDate==item.endDate){
       items.push({
           id: item.s,
-          group: 0,
+          group: item.region,
           type: "point",
           start: getIdFromURI(item.beginDate),
           end: getIdFromURI(item.endDate),
@@ -127,7 +128,7 @@ select * where {
       }else if(ids.includes(item.s)==false && item.beginDate!=item.endDate){
         items.push({
           id: item.s,
-          group: 0,
+          group: item.region,
           start: getIdFromURI(item.beginDate),
           end: getIdFromURI(item.endDate),
           content: item.eventLabel.value,
