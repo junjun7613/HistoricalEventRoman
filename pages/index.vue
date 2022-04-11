@@ -51,7 +51,9 @@ export default {
         },
       ],
       items: [],
-      options: {},
+      options: {
+        verticalScroll: true,
+      },
     }
   },
 
