@@ -19,7 +19,9 @@
     <timeline v-on:click="onClick" ref="timeline" :items="items" :groups="groups" :options="options">
     </timeline>
   </v-container>
-  <div>{{id_content.label}}</div>
+  <div>
+    <h3>{{id_content.label}}</h3>
+  </div>
   </div>
 </template>
 
