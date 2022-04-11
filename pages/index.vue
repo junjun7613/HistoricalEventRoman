@@ -19,6 +19,7 @@
     <timeline v-on:click="onClick" ref="timeline" :items="items" :groups="groups" :options="options">
     </timeline>
   </v-container>
+  <div>{{id_content.label}}</div>
   </div>
 </template>
 
@@ -51,6 +52,8 @@ export default {
         },
       ],
       items: [],
+      id_content_map: [],
+      id_content: "",
       options: {
         verticalScroll: true,
       },
@@ -139,23 +142,25 @@ select * where {
     }
     console.log(items)
     this.items = items
-/*
+
     const id_content_map = {}
 
-    for (const item in items) {
-      console.log(item)
+    for (const item of items) {
+      //console.log(item)
       const content_dict = {}
       content_dict.label = item.content
       id_content_map[item.id] = content_dict
     }
+    //console.log(id_content_map)
+    this.id_content_map = id_content_map
 
-    console.log(id_content_map)
-*/
   },
 
   methods: {
-    onClick: function(event){
-      console.log(event)
+    onClick: function(event){     
+      console.log(event.item)
+      console.log(this.id_content_map[event.item])
+      this.id_content = this.id_content_map[event.item]
     }
   },
 }
