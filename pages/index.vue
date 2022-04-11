@@ -115,7 +115,7 @@ select * where {
     for (const item of data){
 
       const ids = items.map(item => item.id)
-      console.log(ids)
+      //console.log(ids)
 
       if(ids.includes(item.s)==false && item.beginDate==item.endDate){
       items.push({
@@ -139,10 +139,23 @@ select * where {
     }
     console.log(items)
     this.items = items
+/*
+    const id_content_map = {}
+
+    for (const item in items) {
+      console.log(item)
+      const content_dict = {}
+      content_dict.label = item.content
+      id_content_map[item.id] = content_dict
+    }
+
+    console.log(id_content_map)
+*/
   },
+
   methods: {
     onClick: function(event){
-      console.log(event.item)
+      console.log(event)
     }
   },
 }
