@@ -16,7 +16,7 @@
  </client-only>
 </div>
   <v-container class="container">
-    <timeline ref="timeline" :items="items" :groups="groups" :options="options">
+    <timeline v-on:click="onClick" ref="timeline" :items="items" :groups="groups" :options="options">
     </timeline>
   </v-container>
   </div>
@@ -140,7 +140,11 @@ select * where {
     console.log(items)
     this.items = items
   },
-  methods: {},
+  methods: {
+    onClick: function(event){
+      console.log(event.item)
+    }
+  },
 }
 </script>
 
