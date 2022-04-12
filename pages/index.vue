@@ -209,7 +209,7 @@ select * where {
       console.log(newItems)
       this.items = newItems
 
-    }
+    },
   },
 }
 </script>
