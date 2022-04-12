@@ -3,10 +3,11 @@
  <client-only>
    <l-map :zoom=13 :center="[35.025277,135.762222]">
      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-     <l-marker
+     <l-marker 
           v-for="(marker, key) in markers"
           :key="key"
           :lat-lng="marker.latLng"
+          @click="onClickPlace(marker.uri)"
         >
           <l-popup>
             <a @click="search(marker.uri)">{{ marker.label }}</a>
@@ -56,6 +57,7 @@ export default {
       items: [],
       id_content_map: [],
       id_content: "",
+      event_id_map: [],
       options: {
         verticalScroll: true,
       },
@@ -122,6 +124,7 @@ select * where {
       }
     }
     console.log(event_id_map)
+    this.event_id_map = event_id_map
     console.log(markers)
     this.markers = markers
 
@@ -174,6 +177,29 @@ select * where {
         this.id_content = this.id_content_map[event.item]
       }else{;
       }     
+    },
+    onClickPlace: function(value){
+      //console.log(value)
+      const event_id_map = this.event_id_map
+      //console.log(event_id_map)
+      const newItems = []
+      const items = this.items
+
+      for (const key in event_id_map){
+        if(event_id_map[key].place==value){
+          console.log(event_id_map[key].place)
+          console.log(key)
+          for (const item of items){
+            if (key==item.id){
+              newItems.push(item)
+            }else{;}
+          }
+        }else{;}
+      }
+
+      console.log(newItems)
+      this.items = newItems
+
     }
   },
 }
