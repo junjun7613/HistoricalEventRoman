@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       markers: [],
+      statMarkers: [],
       groups: [
         {
           id: 0,
@@ -130,6 +131,7 @@ select * where {
     this.event_id_map = event_id_map
     console.log(markers)
     this.markers = markers
+    this.statMarkers
 
     for (const item of data){
 
@@ -181,9 +183,12 @@ select * where {
         this.id_content = this.id_content_map[event.item]
       }else{;
       }
+
+      const event_id_map = this.event_id_map
+
     },
     onClickPlace: function(value){
-      //console.log(value)
+      console.log(value)
       const event_id_map = this.event_id_map
       console.log(event_id_map)
       const newItems = []
