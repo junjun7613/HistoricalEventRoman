@@ -55,6 +55,7 @@ export default {
         },
       ],
       items: [],
+      statItems: [],
       id_content_map: [],
       id_content: "",
       event_id_map: [],
@@ -109,6 +110,8 @@ select * where {
 
     for (const item of data) {
 
+      console.log(item)
+
       const event_id_dict = {}
       event_id_dict.label = item.eventLabel.value
       event_id_dict.place = item.place
@@ -155,6 +158,7 @@ select * where {
     }
     console.log(items)
     this.items = items
+    this.statItems = items
 
     const id_content_map = {}
 
@@ -164,7 +168,7 @@ select * where {
       content_dict.label = item.content
       id_content_map[item.id] = content_dict
     }
-    //console.log(id_content_map)
+    console.log(id_content_map)
     this.id_content_map = id_content_map
 
   },
@@ -176,14 +180,14 @@ select * where {
         console.log(this.id_content_map[event.item])
         this.id_content = this.id_content_map[event.item]
       }else{;
-      }     
+      }
     },
     onClickPlace: function(value){
       //console.log(value)
       const event_id_map = this.event_id_map
-      //console.log(event_id_map)
+      console.log(event_id_map)
       const newItems = []
-      const items = this.items
+      const items = this.statItems
 
       for (const key in event_id_map){
         if(event_id_map[key].place==value){
