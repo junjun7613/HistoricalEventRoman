@@ -98,6 +98,7 @@ select * where {
     //mapのマーカー群
     const markers = []
     const items = []
+    const event_id_map = {}
   
     function getIdFromURI(uri){
       const tmp = uri.split('/')
@@ -105,6 +106,12 @@ select * where {
     }
 
     for (const item of data) {
+
+      const event_id_dict = {}
+      event_id_dict.label = item.eventLabel.value
+      event_id_dict.place = item.place
+      event_id_map[item.s] = event_id_dict
+
       if (item.place){
       markers.push({
         uri: item.place,
@@ -114,6 +121,7 @@ select * where {
       continue
       }
     }
+    console.log(event_id_map)
     console.log(markers)
     this.markers = markers
 
@@ -159,10 +167,13 @@ select * where {
   },
 
   methods: {
-    onClick: function(event){     
-      console.log(event.item)
-      console.log(this.id_content_map[event.item])
-      this.id_content = this.id_content_map[event.item]
+    onClick: function(event){
+      if (event.item!=null){
+        console.log(event.item)
+        console.log(this.id_content_map[event.item])
+        this.id_content = this.id_content_map[event.item]
+      }else{;
+      }     
     }
   },
 }
