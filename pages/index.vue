@@ -1,18 +1,31 @@
 <template>
   <div><div id="map-wrap" style="height:50vh;width:90vh;margin-left:auto;margin-right:auto">
  <client-only>
-   <l-map :zoom=13 :center="[35.025277,135.762222]">
+   <l-map :zoom=13 :center="center">
      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-     <l-marker 
+     <!--<l-marker 
           v-for="(marker, key) in markers"
           :key="key"
           :lat-lng="marker.latLng"
+          :color="marker.color"
           @click="onClickPlace(marker.uri)"
         >
           <l-popup>
             <a @click="search(marker.uri)">{{ marker.label }}</a>
           </l-popup>
-        </l-marker>
+        </l-marker>-->
+        <l-circle-marker 
+          v-for="(circle, key) in circles"
+          :key="key"
+          :lat-lng="circle.center"
+          :radius="circle.radius"
+          :color="circle.color"
+          @click="onClickPlace(circle.uri)"
+        >
+          <l-popup>
+            <a @click="search(circle.uri)">{{ circle.label }}</a>
+          </l-popup>
+        </l-circle-marker>
    </l-map>
  </client-only>
 </div>
@@ -34,8 +47,10 @@ export default {
   },
   data() {
     return {
-      markers: [],
-      statMarkers: [],
+      //markers: [],
+      center: [35.025277,135.762222],
+      circles: [],
+      statCircles: [],
       groups: [
         {
           id: 0,
@@ -100,7 +115,8 @@ select * where {
 
     console.log(data)
     //mapのマーカー群
-    const markers = []
+    //const markers = []
+    const circles = []
     const items = []
     const event_id_map = {}
   
@@ -117,21 +133,33 @@ select * where {
       event_id_dict.label = item.eventLabel.value
       event_id_dict.place = item.place
       event_id_map[item.s] = event_id_dict
-
+/*
       if (item.place){
       markers.push({
         uri: item.place,
         label: item.placeLavel,
         latLng: [item.lat, item.lon],
+        color: "red",
+      })
+      continue
+      }*/
+      if (item.place){
+      circles.push({
+        uri: item.place,
+        label: item.placeLavel,
+        center: [item.lat, item.lon],
+        radius: 5,
+        color: "red",
       })
       continue
       }
     }
     console.log(event_id_map)
     this.event_id_map = event_id_map
-    console.log(markers)
-    this.markers = markers
-    this.statMarkers
+    //console.log(markers)
+    //this.markers = markers
+    this.circles = circles
+    this.statCircles = circles
 
     for (const item of data){
 
@@ -185,6 +213,32 @@ select * where {
       }
 
       const event_id_map = this.event_id_map
+      console.log(event_id_map)
+
+      const newCircles = []
+      const circles = this.statCircles
+
+      for (const key in event_id_map){
+        if(key==event.item){
+          console.log(event_id_map[key].place)
+          for (const circle of circles){
+            if(event_id_map[key].place==circle.uri){
+              const newCircle = {
+                uri: circle.uri,
+                label: circle.lavel,
+                center: circle.center,
+                radius: 10,
+                color: "blue",
+              }
+              newCircles.push(newCircle)
+            }else{
+              newCircles.push(circle)
+            }
+          }
+        }else{;}
+      }
+
+      this.circles = newCircles
 
     },
     onClickPlace: function(value){
