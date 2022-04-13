@@ -68,6 +68,9 @@ export default {
         },{
           id: 4,
           content: '中部',
+        },{
+          id: 5,
+          content: '北陸',
         },
       ],
       items: [],
