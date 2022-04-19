@@ -269,9 +269,25 @@ select * where {
     },
     onRangechanged: function(value){
       console.log(value)
-      console.log(value.start.getTime())
-      console.log(value.end)
+
+      const ST = value.start
+      const isoStrST = ST.toISOString()
+      console.log(isoStrST)
       
+
+      const ET = value.end
+      const isoStrET = ET.toISOString()
+      console.log(isoStrET)
+
+      //console.log(isoStrST > isoStrET)
+
+      const items = this.items
+      console.log(items)
+      for (const item of items){
+        console.log(isoStrST < item.start)
+        console.log(isoStrET > item.end)
+      }
+
     },
   },
 }
