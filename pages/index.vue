@@ -269,7 +269,7 @@ select * where {
     },
     onRangechanged: function(value){
       console.log(value)
-      console.log(value.start)
+      console.log(value.start.getTime())
       console.log(value.end)
       
     },
