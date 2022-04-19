@@ -30,7 +30,7 @@
  </client-only>
 </div>
   <v-container class="container">
-    <timeline v-on:click="onClick" ref="timeline" :items="items" :groups="groups" :options="options">
+    <timeline v-on:click="onClick" v-on:rangechanged="onRangechanged" ref="timeline" :items="items" :groups="groups" :options="options">
     </timeline>
   </v-container>
   <div>
@@ -86,7 +86,7 @@ export default {
 
   async mounted() {
     const endpoint =
-      'https://dydra.com/i2k/historical/sparql'
+      'https://dydra.com/junogawa/historical-event/sparql'
 
     const query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -266,6 +266,12 @@ select * where {
       console.log(newItems)
       this.items = newItems
 
+    },
+    onRangechanged: function(value){
+      console.log(value)
+      console.log(value.start)
+      console.log(value.end)
+      
     },
   },
 }
