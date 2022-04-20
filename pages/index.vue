@@ -212,7 +212,8 @@ select * where {
         console.log(event.item)
         console.log(this.id_content_map[event.item])
         this.id_content = this.id_content_map[event.item]
-      }else{;
+      }else{
+        ;
       }
 
       const event_id_map = this.event_id_map
