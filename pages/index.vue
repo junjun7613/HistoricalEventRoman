@@ -219,7 +219,8 @@ select * where {
       console.log(event_id_map)
 
       const newCircles = []
-      const circles = this.statCircles
+      //const circles = this.statCircles
+      const circles = this.circles
 
       for (const key in event_id_map){
         if(key==event.item){
@@ -280,14 +281,50 @@ select * where {
       console.log(isoStrET)
 
       //console.log(isoStrST > isoStrET)
+      const newItems = []
+      const items = this.statItems
+      //console.log(items)
+      for (const key in items){
+        console.log(key)
+        if (isoStrST < items[key].start && isoStrET > items[key].end){
+          newItems.push(items[key])
+        }else{
+          ;
+          }
+      }
+      console.log(newItems)
+      this.items = newItems
+      
+      const newItems_eventId = []
+      const event_id_map = this.event_id_map
+      const newItems_placeId = []
 
-      const items = this.items
-      console.log(items)
-      for (const item of items){
-        console.log(isoStrST < item.start)
-        console.log(isoStrET > item.end)
+      for (const key in newItems){
+        newItems_eventId.push(newItems[key].id)
+      }
+      console.log(newItems_eventId)
+
+      console.log(event_id_map)
+      for (const key of Object.keys(event_id_map)){
+        if (newItems_eventId.includes(key)){
+          console.log(key)
+          newItems_placeId.push(event_id_map[key].place)
+        }else{;}
       }
 
+      console.log(newItems_placeId)
+
+      const newCircles = []
+      const circles = this.statCircles
+      //console.log(circles)
+      for (const key in circles){
+        if (newItems_placeId.includes(circles[key].uri)){
+          newCircles.push(circles[key])
+        }else{;}
+      }
+
+      console.log(newCircles)
+      this.circles = newCircles
     },
   },
 }
