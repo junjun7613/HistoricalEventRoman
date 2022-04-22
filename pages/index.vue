@@ -48,29 +48,13 @@ export default {
   data() {
     return {
       //markers: [],
-      center: [35.025277,135.762222],
+      center: [41.891775,12.486137],
       circles: [],
       statCircles: [],
       groups: [
         {
           id: 0,
-          content: '日本',
-        },
-        {
-          id: 1,
-          content: '近畿',
-        },{
-          id: 2,
-          content: '関東',
-        },{
-          id: 3,
-          content: '東北',
-        },{
-          id: 4,
-          content: '中部',
-        },{
-          id: 5,
-          content: '北陸',
+          content: 'Roma',
         },
       ],
       items: [],
@@ -86,7 +70,7 @@ export default {
 
   async mounted() {
     const endpoint =
-      'https://dydra.com/junogawa/historical-event/sparql'
+      'https://dydra.com/junjun7613/historical-event-roman/sparql'
 
     const query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
@@ -100,16 +84,16 @@ PREFIX time: <http://www.w3.org/2006/time#>
 PREFIX geo: <https://geolod.ex.nii.ac.jp/resource/>
 PREFIX schema: <http://schema.org/>
 
-select * where { 
-	?s a crm:E5_Event .
-    ?s ex:eventType ?type.
-    ?s ex:eventCategory ?category.
-    ?s ex:region ?region.
-    ?s rdfs:label ?eventLabel.
-    optional{?s crm:P7_took_place_at ?place.}
-    optional{?place rdfs:label ?placeLavel; schema:latitude ?lat; schema:longitude ?lon.}
-    ?s time:hasBeginning ?beginDate.
-    ?s time:hasEnd ?endDate.
+SELECT * WHERE { 
+	?s a <http://www.crm-crm.org/crm-crm/E5_Event> .
+    ?s <http://www.example.historical-lod/eventType> ?type.
+    ?s <http://www.example.historical-lod/eventCategory> ?category.
+    ?s <http://www.example.historical-lod/region> ?region.
+    ?s <http://www.w3.org/2000/01/rdf-schema#label> ?eventLabel.
+    OPTIONAL{?s <http://www.crm-crm.org/crm-crm/P7_took_place_at> ?place.}
+    OPTIONAL{?place <http://www.w3.org/2000/01/rdf-schema#label> ?placeLavel; <http://schema.org/latitude> ?lat; <http://schema.org/longitude> ?lon.}
+    ?s <http://www.w3.org/2006/time#hasBeginning> ?beginDate.
+    ?s <http://www.w3.org/2006/time#hasEnd> ?endDate.
 }`
 
     const url = `${endpoint}?query=${encodeURIComponent(query)}`
@@ -168,14 +152,18 @@ select * where {
 
       const ids = items.map(item => item.id)
       //console.log(ids)
+      const beginDateId = getIdFromURI(item.beginDate)
+      const beginDate = beginDateId.replace("BC","-00")
+      const endDateId = getIdFromURI(item.endDate)
+      const endDate = endDateId.replace("BC","-00")
 
       if(ids.includes(item.s)==false && item.beginDate==item.endDate){
       items.push({
           id: item.s,
           group: item.region,
           type: "point",
-          start: getIdFromURI(item.beginDate),
-          end: getIdFromURI(item.endDate),
+          start: beginDate,
+          end: endDate,
           content: item.eventLabel.value,
         })
         continue
@@ -183,8 +171,8 @@ select * where {
         items.push({
           id: item.s,
           group: item.region,
-          start: getIdFromURI(item.beginDate),
-          end: getIdFromURI(item.endDate),
+          start: beginDate,
+          end: endDate,
           content: item.eventLabel.value,
         })
       }
@@ -284,10 +272,10 @@ select * where {
       //console.log(isoStrST > isoStrET)
       const newItems = []
       const items = this.statItems
-      //console.log(items)
+      console.log(items)
       for (const key in items){
         console.log(key)
-        if (isoStrST < items[key].start && isoStrET > items[key].end){
+        if (isoStrST < items[key].start.replace("-00","-") && isoStrET > items[key].end.replace("-00","-")){
           newItems.push(items[key])
         }else{
           ;
