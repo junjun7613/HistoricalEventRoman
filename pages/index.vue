@@ -274,7 +274,11 @@ SELECT * WHERE {
       const items = this.statItems
       console.log(items)
       for (const key in items){
-        console.log(key)
+        //console.log(key)
+        const strET = items[key].end.replace("-00","-")
+        const strETDate = Date.parse(strET)
+        const ETDate = Date.parse(ET)
+        console.log(ETDate > strETDate)
         if (isoStrST < items[key].start.replace("-00","-") && isoStrET > items[key].end.replace("-00","-")){
           newItems.push(items[key])
         }else{
