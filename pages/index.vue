@@ -261,11 +261,15 @@ SELECT * WHERE {
       console.log(value)
 
       const ST = value.start
+      const STTime = ST.getTime()
+      console.log(STTime)
       const isoStrST = ST.toISOString()
       console.log(isoStrST)
       
 
       const ET = value.end
+      const ETTime = ET.getTime()
+      console.log(ETTime)
       const isoStrET = ET.toISOString()
       console.log(isoStrET)
 
@@ -275,11 +279,17 @@ SELECT * WHERE {
       console.log(items)
       for (const key in items){
         //console.log(key)
-        const strET = items[key].end.replace("-00","-")
+        const strST = items[key].start
+        const strSTDate = Date.parse(strST)
+        const strSTTime = strSTDate.valueOf()
+        console.log(strSTTime)
+        
+        const strET = items[key].end
         const strETDate = Date.parse(strET)
-        const ETDate = Date.parse(ET)
-        console.log(ETDate > strETDate)
-        if (isoStrST < items[key].start.replace("-00","-") && isoStrET > items[key].end.replace("-00","-")){
+        const strETTime = strETDate.valueOf()
+        console.log(strETTime)
+        //console.log(ETDate > strETDate)
+        if (STTime < strSTTime && ETTime > strETTime){
           newItems.push(items[key])
         }else{
           ;
