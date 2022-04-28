@@ -282,12 +282,12 @@ SELECT * WHERE {
         const strST = items[key].start
         const strSTDate = Date.parse(strST)
         const strSTTime = strSTDate.valueOf()
-        console.log(strSTTime)
+        //console.log(strSTTime)
         
         const strET = items[key].end
         const strETDate = Date.parse(strET)
         const strETTime = strETDate.valueOf()
-        console.log(strETTime)
+        //console.log(strETTime)
         //console.log(ETDate > strETDate)
         if (STTime < strSTTime && ETTime > strETTime){
           newItems.push(items[key])
