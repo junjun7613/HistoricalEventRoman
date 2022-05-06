@@ -1,5 +1,6 @@
 <template>
   <div>
+  <!--
   <div>
     <ul>
       <li>Latitude (North): {{lat1}}</li>
@@ -8,6 +9,7 @@
       <li>Longitude (East): {{lng2}}</li>
     </ul>
   </div>
+  -->
   <div id="map-wrap" style="height:50vh;width:90vh;margin-left:auto;margin-right:auto">
  <client-only>
    <l-map :zoom=13 :center="center" @update:bounds="showBounds">
