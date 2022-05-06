@@ -1,7 +1,16 @@
 <template>
-  <div><div id="map-wrap" style="height:50vh;width:90vh;margin-left:auto;margin-right:auto">
+  <div>
+  <div>
+    <ul>
+      <li>Latitude (North): {{lat1}}</li>
+      <li>Longitude (West): {{lng1}}</li>
+      <li>Latitude (South): {{lat2}}</li>
+      <li>Longitude (East): {{lng2}}</li>
+    </ul>
+  </div>
+  <div id="map-wrap" style="height:50vh;width:90vh;margin-left:auto;margin-right:auto">
  <client-only>
-   <l-map :zoom=13 :center="center">
+   <l-map :zoom=13 :center="center" @update:bounds="showBounds">
      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
      <!--<l-marker 
           v-for="(marker, key) in markers"
@@ -65,6 +74,10 @@ export default {
       options: {
         verticalScroll: true,
       },
+      lat1: 0,
+      lng1: 0,
+      lat2: 0,
+      lng2: 0,
     }
   },
 
@@ -328,6 +341,28 @@ SELECT * WHERE {
 
       console.log(newCircles)
       this.circles = newCircles
+    },
+    showBounds (bounds) {
+      const newItems = []
+      const items = this.statItems
+
+      const posNW = bounds.getNorthWest()
+      const posSE = bounds.getSouthEast()
+      this.lat1 = posNW.lat
+      this.lng1 = posNW.lng
+      this.lat2 = posSE.lat
+      this.lng2 = posSE.lng
+
+      console.log(items)
+      for (const key in items) {
+        if(items[key].lat<posNW.lat && posSE.lat<items[key].lat && posNW.lng<items[key].lon && items[key].lon<posSE.lng){
+          newItems.push(items[key])
+        }else{
+          ;
+        }
+      }
+      this.items = newItems
+
     },
   },
 }
